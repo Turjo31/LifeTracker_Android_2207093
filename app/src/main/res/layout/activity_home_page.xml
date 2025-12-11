@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9FD8CB"
+    android:orientation="vertical"
+    tools:context=".HomePage">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:background="#517664"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:shadowRadius="5"
+        android:text="Welcome Back!"
+        android:textColor="#D6E5E3"
+        android:textSize="34sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:text="Habits for today"
+        android:textColor="#517664"
+        android:textSize="24sp"
+        android:layout_marginBottom="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/habitsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp">
+
+        <TextView
+            android:id="@+id/addHabit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="+ Add new habit"
+            android:textColor="#517664"
+            android:textSize="20sp" />
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
