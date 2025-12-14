@@ -34,27 +34,27 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-condensed"
-        android:paddingLeft="24dp"
+        android:paddingLeft="10dp"
         android:paddingRight="24dp"
         android:text="Habits for today"
         android:textColor="#517664"
-        android:textSize="24sp"
-        android:layout_marginBottom="8dp"/>
+        android:textSize="34sp" />
 
-    <LinearLayout
-        android:id="@+id/habitsContainer"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/habitsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-    </LinearLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="8dp"
         app:cardElevation="2dp">
