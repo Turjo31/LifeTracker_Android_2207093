@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -35,6 +36,7 @@ public class HomePage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        ImageButton goToProfile = findViewById(R.id.goToProfile);
 
         habitsRecyclerView = findViewById(R.id.habitsRecyclerView);
         habits = new ArrayList<>();
@@ -77,6 +79,10 @@ public class HomePage extends AppCompatActivity {
         addHabit.setOnClickListener(v -> {
             Intent intent = new Intent(HomePage.this, AddHabitActivity.class);
             addHabitLauncher.launch(intent);
+        });
+        goToProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(HomePage.this, Profile.class);
+            startActivity(intent);
         });
     }
 }

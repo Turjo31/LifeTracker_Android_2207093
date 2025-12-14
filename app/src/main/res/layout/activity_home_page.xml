@@ -9,18 +9,33 @@
     android:orientation="vertical"
     tools:context=".HomePage">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="95dp"
-        android:background="#517664"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:shadowRadius="5"
-        android:text="Welcome Back!"
-        android:textColor="#D6E5E3"
-        android:textSize="34sp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="323dp"
+            android:layout_height="95dp"
+            android:background="#517664"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:shadowRadius="5"
+            android:text="Welcome Back!"
+            android:textColor="#D6E5E3"
+            android:textSize="34sp" />
+
+        <ImageButton
+            android:id="@+id/goToProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="#FFFFFF"
+            app:srcCompat="@drawable/baseline_face_24" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView"
