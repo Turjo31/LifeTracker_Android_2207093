@@ -25,6 +25,10 @@ public class HomePage extends AppCompatActivity {
     private HabitAdapter habitsAdapter;
     private RecyclerView habitsRecyclerView;
     private ActivityResultLauncher<Intent> addHabitLauncher;
+    private int level = 1;
+    private int exp = 0;
+    private int expToNextLevel = 100;
+    private TextView levelTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,28 +40,39 @@ public class HomePage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        TextView welcomeText = findViewById(R.id.welcomeText);
+        String userName = getIntent().getStringExtra("USER_NAME");
+        if (userName != null && !userName.isEmpty()) {
+            welcomeText.setText("Welcome Back, " + userName + "!");
+        }
+
+        levelTextView = findViewById(R.id.levelTextView);
+        updateLevelText();
+
         ImageButton goToProfile = findViewById(R.id.goToProfile);
 
         habitsRecyclerView = findViewById(R.id.habitsRecyclerView);
         habits = new ArrayList<>();
-        habits.add("Reading 10 minutes");
-        habits.add("Drink Water");
+        habits.add("Sample Habit");
 
-        habitsAdapter = new HabitAdapter(habits, new HabitAdapter.OnItemLongClickListener() {
-            @Override
-            public void onItemLongClick(int position) {
-                new AlertDialog.Builder(HomePage.this)
-                        .setTitle("Delete Habit")
-                        .setMessage("Would you like to delete this habit?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                habits.remove(position);
-                                habitsAdapter.notifyItemRemoved(position);
-                            }
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
-            }
+
+        habitsAdapter = new HabitAdapter(habits, position -> {
+            new AlertDialog.Builder(HomePage.this)
+                    .setTitle("Mark as complete?")
+                    .setPositiveButton("Yes", (dialog, which) -> completeHabit(position))
+                    .setNegativeButton("No", null)
+                    .show();
+        }, position -> {
+            new AlertDialog.Builder(HomePage.this)
+                    .setTitle("Delete Habit")
+                    .setMessage("Would you like to delete this habit?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        habits.remove(position);
+                        habitsAdapter.notifyItemRemoved(position);
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
         });
 
         habitsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -84,5 +99,21 @@ public class HomePage extends AppCompatActivity {
             Intent intent = new Intent(HomePage.this, Profile.class);
             startActivity(intent);
         });
+    }
+
+    private void completeHabit(int position) {
+        exp += 10;
+        if (exp >= expToNextLevel) {
+            level++;
+            exp = exp - expToNextLevel;
+            expToNextLevel += 50;
+        }
+        updateLevelText();
+        habits.remove(position);
+        habitsAdapter.notifyItemRemoved(position);
+    }
+
+    private void updateLevelText() {
+        levelTextView.setText("Level " + level + "\nEXP: " + exp + " / " + expToNextLevel);
     }
 }

@@ -15,6 +15,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/welcomeText"
             android:layout_width="323dp"
             android:layout_height="95dp"
             android:background="#517664"
@@ -25,7 +26,7 @@
             android:shadowRadius="5"
             android:text="Welcome Back!"
             android:textColor="#D6E5E3"
-            android:textSize="34sp" />
+            android:textSize="28sp" />
 
         <ImageButton
             android:id="@+id/goToProfile"
@@ -37,13 +38,18 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
+    <TextView
+        android:id="@+id/levelTextView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:background="#517664"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+        android:text="Level 1"
+        android:textColor="#D6E5E3"
+        android:textSize="34sp" />
 
     <TextView
         android:id="@+id/textView2"

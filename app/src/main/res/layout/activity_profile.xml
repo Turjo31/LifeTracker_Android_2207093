@@ -39,7 +39,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:shadowRadius="5"
-        android:text="Your Profile"
+        android:text="Edit Profile"
         android:textColor="#D6E5E3"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"

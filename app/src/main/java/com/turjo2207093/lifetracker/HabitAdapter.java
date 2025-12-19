@@ -13,10 +13,21 @@ import java.util.ArrayList;
 public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.ViewHolder> {
 
     private ArrayList<String> habits;
+    private OnItemClickListener clickListener;
     private OnItemLongClickListener longClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
 
     public interface OnItemLongClickListener {
         void onItemLongClick(int position);
+    }
+
+    public HabitAdapter(ArrayList<String> habits, OnItemClickListener clickListener, OnItemLongClickListener longClickListener) {
+        this.habits = habits;
+        this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
     }
 
     public HabitAdapter(ArrayList<String> habits, OnItemLongClickListener longClickListener) {
@@ -48,14 +59,22 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             habitName = (TextView) itemView;
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (longClickListener != null) {
-                        longClickListener.onItemLongClick(getAdapterPosition());
+            itemView.setOnClickListener(v -> {
+                if (clickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        clickListener.onItemClick(position);
                     }
-                    return true;
                 }
+            });
+            itemView.setOnLongClickListener(v -> {
+                if (longClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        longClickListener.onItemLongClick(position);
+                    }
+                }
+                return true;
             });
         }
     }

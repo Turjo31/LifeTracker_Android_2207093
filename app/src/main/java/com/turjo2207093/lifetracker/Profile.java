@@ -1,26 +1,31 @@
 package com.turjo2207093.lifetracker;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class Profile extends AppCompatActivity {
+
+    private EditText nameInfo;
+    private Button saveProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        nameInfo = findViewById(R.id.nameInfo);
+        saveProfile = findViewById(R.id.saveProfile);
+
+        saveProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(Profile.this, HomePage.class);
+            intent.putExtra("USER_NAME", nameInfo.getText().toString());
+            startActivity(intent);
         });
     }
 }
