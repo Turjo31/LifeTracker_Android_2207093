@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Profile extends AppCompatActivity {
 
-    private EditText nameInfo;
+    private EditText nameInfo, genderInfo, ageInfo, emailInfo;
     private Button saveProfile;
 
     @Override
@@ -20,11 +20,17 @@ public class Profile extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         nameInfo = findViewById(R.id.nameInfo);
+        genderInfo = findViewById(R.id.genderInfo);
+        ageInfo = findViewById(R.id.ageInfo);
+        emailInfo = findViewById(R.id.emailInfo);
         saveProfile = findViewById(R.id.saveProfile);
 
         saveProfile.setOnClickListener(v -> {
             Intent intent = new Intent(Profile.this, HomePage.class);
             intent.putExtra("USER_NAME", nameInfo.getText().toString());
+            intent.putExtra("USER_GENDER", genderInfo.getText().toString());
+            intent.putExtra("USER_AGE", ageInfo.getText().toString());
+            intent.putExtra("USER_EMAIL", emailInfo.getText().toString());
             startActivity(intent);
         });
     }

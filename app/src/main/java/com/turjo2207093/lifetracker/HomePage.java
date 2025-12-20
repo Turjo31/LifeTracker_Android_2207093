@@ -30,6 +30,8 @@ public class HomePage extends AppCompatActivity {
     private int expToNextLevel = 100;
     private TextView levelTextView;
 
+    private String userName, userGender, userAge, userEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +44,11 @@ public class HomePage extends AppCompatActivity {
         });
 
         TextView welcomeText = findViewById(R.id.welcomeText);
-        String userName = getIntent().getStringExtra("USER_NAME");
+        userName = getIntent().getStringExtra("USER_NAME");
+        userGender = getIntent().getStringExtra("USER_GENDER");
+        userAge = getIntent().getStringExtra("USER_AGE");
+        userEmail = getIntent().getStringExtra("USER_EMAIL");
+
         if (userName != null && !userName.isEmpty()) {
             welcomeText.setText("Welcome Back, " + userName + "!");
         }
@@ -54,8 +60,8 @@ public class HomePage extends AppCompatActivity {
 
         habitsRecyclerView = findViewById(R.id.habitsRecyclerView);
         habits = new ArrayList<>();
-        habits.add("Sample Habit");
-
+        habits.add("Reading 10 minutes");
+        habits.add("Drink Water");
 
         habitsAdapter = new HabitAdapter(habits, position -> {
             new AlertDialog.Builder(HomePage.this)
@@ -95,8 +101,13 @@ public class HomePage extends AppCompatActivity {
             Intent intent = new Intent(HomePage.this, AddHabitActivity.class);
             addHabitLauncher.launch(intent);
         });
+
         goToProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, Profile.class);
+            Intent intent = new Intent(HomePage.this, ViewProfileActivity.class);
+            intent.putExtra("USER_NAME", userName);
+            intent.putExtra("USER_GENDER", userGender);
+            intent.putExtra("USER_AGE", userAge);
+            intent.putExtra("USER_EMAIL", userEmail);
             startActivity(intent);
         });
     }

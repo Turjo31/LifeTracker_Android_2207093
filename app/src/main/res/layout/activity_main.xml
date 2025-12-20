@@ -9,9 +9,10 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="casual"
+        android:layout_width="331dp"
+        android:layout_height="109dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:gravity="center"
         android:text="LifeTracker"
         android:textColor="#0976DC"
         android:textSize="60sp"
@@ -19,13 +20,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.4" />
+
+    <Button
+        android:id="@+id/signIn"
+        android:layout_width="190dp"
+        android:layout_height="81dp"
+        android:layout_marginBottom="28dp"
+        android:backgroundTint="#4CAF50"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Sign In"
+        android:textColor="#FFFCF9"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/login"
         android:layout_width="150dp"
         android:layout_height="85dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="84dp"
         android:backgroundTint="#FF6978"
         android:fontFamily="sans-serif-condensed"
         android:text="Login"
@@ -33,6 +49,6 @@
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
