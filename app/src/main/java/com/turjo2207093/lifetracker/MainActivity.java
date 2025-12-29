@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
 
         Button loginButton = findViewById(R.id.login);
         Button signInButton = findViewById(R.id.signIn);
+        Button leaderboardButton = findViewById(R.id.leaderboardButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +44,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Profile.class);
+                startActivity(intent);
+            }
+        });
+
+        leaderboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
                 startActivity(intent);
             }
         });
