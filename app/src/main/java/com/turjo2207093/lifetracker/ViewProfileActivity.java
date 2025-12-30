@@ -62,7 +62,6 @@ public class ViewProfileActivity extends AppCompatActivity {
                 }
             });
         } else {
-            // Should not happen if user is logged in
             startActivity(new Intent(ViewProfileActivity.this, MainActivity.class));
             finish();
         }

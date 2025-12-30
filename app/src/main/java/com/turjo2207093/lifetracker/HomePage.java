@@ -58,7 +58,6 @@ public class HomePage extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
-            // Not logged in, redirect to MainActivity
             startActivity(new Intent(HomePage.this, MainActivity.class));
             finish();
             return;
@@ -75,8 +74,7 @@ public class HomePage extends AppCompatActivity {
 
         habitsRecyclerView = findViewById(R.id.habitsRecyclerView);
         habits = new ArrayList<>();
-        habits.add("Reading 10 minutes");
-        habits.add("Drink Water");
+        habits.add("Sample");
 
         habitsAdapter = new HabitAdapter(habits, position -> {
             new AlertDialog.Builder(HomePage.this)
@@ -136,7 +134,7 @@ public class HomePage extends AppCompatActivity {
                 if (document.exists()) {
                     level = document.getLong("level").intValue();
                     exp = document.getLong("exp").intValue();
-                    expToNextLevel = 100 + (level - 1) * 50; // Recalculate expToNextLevel
+                    expToNextLevel = 100 + (level - 1) * 50;
 
                     welcomeText.setText("Welcome Back!");
                     updateLevelText();
