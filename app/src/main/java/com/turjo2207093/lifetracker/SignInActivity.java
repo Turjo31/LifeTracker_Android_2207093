@@ -12,7 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText nameInfo, genderInfo, ageInfo, emailInfo, passwordInfo;
     private Button signInButton;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class SignInActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         nameInfo = findViewById(R.id.nameInfo);
         genderInfo = findViewById(R.id.genderInfo);
@@ -66,8 +67,7 @@ public class SignInActivity extends AppCompatActivity {
                                 userData.put("level", 1);
                                 userData.put("exp", 0);
 
-                                db.collection("users").document(userId)
-                                        .set(userData)
+                                mDatabase.child("users").child(userId).setValue(userData)
                                         .addOnSuccessListener(aVoid -> {
                                             Toast.makeText(SignInActivity.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(SignInActivity.this, HomePage.class);

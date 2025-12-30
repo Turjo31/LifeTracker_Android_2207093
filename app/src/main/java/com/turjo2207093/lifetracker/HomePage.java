@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -20,11 +21,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomePage extends AppCompatActivity {
 
@@ -40,7 +45,7 @@ public class HomePage extends AppCompatActivity {
     private TextView welcomeText;
 
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private DatabaseReference mDatabase;
     private String userId;
 
     @Override
@@ -55,7 +60,6 @@ public class HomePage extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             startActivity(new Intent(HomePage.this, MainActivity.class));
@@ -63,6 +67,7 @@ public class HomePage extends AppCompatActivity {
             return;
         }
         userId = currentUser.getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
         welcomeText = findViewById(R.id.welcomeText);
         levelTextView = findViewById(R.id.levelTextView);
@@ -127,22 +132,27 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void fetchUserData() {
-        DocumentReference docRef = db.collection("users").document(userId);
-        docRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    level = document.getLong("level").intValue();
-                    exp = document.getLong("exp").intValue();
-                    expToNextLevel = 100 + (level - 1) * 50;
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user != null) {
+                        level = user.getLevel();
+                        exp = user.getExp();
+                        expToNextLevel = 100 + (level - 1) * 50;
 
-                    welcomeText.setText("Welcome Back!");
-                    updateLevelText();
+                        welcomeText.setText("Welcome Back!");
+                        updateLevelText();
+                    }
                 } else {
-                    Toast.makeText(this, "No such document", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomePage.this, "User data not found.", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(this, "get failed with " + task.getException(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(HomePage.this, "Failed to load user data.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -155,8 +165,10 @@ public class HomePage extends AppCompatActivity {
             expToNextLevel += 50;
         }
 
-        DocumentReference docRef = db.collection("users").document(userId);
-        docRef.update("level", level, "exp", exp);
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("level", level);
+        updates.put("exp", exp);
+        mDatabase.updateChildren(updates);
 
         updateLevelText();
         habits.remove(position);

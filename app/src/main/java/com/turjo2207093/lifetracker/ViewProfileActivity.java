@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -13,15 +14,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ViewProfileActivity extends AppCompatActivity {
 
     private TextView nameTextView, genderTextView, ageTextView, emailTextView;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,35 +38,42 @@ public class ViewProfileActivity extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(ViewProfileActivity.this, MainActivity.class));
+            finish();
+            return;
+        }
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(currentUser.getUid());
 
         nameTextView = findViewById(R.id.nameTextView);
         genderTextView = findViewById(R.id.genderTextView);
         ageTextView = findViewById(R.id.ageTextView);
         emailTextView = findViewById(R.id.emailTextView);
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
-            DocumentReference docRef = db.collection("users").document(userId);
-            docRef.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        nameTextView.setText(document.getString("name"));
-                        genderTextView.setText(document.getString("gender"));
-                        ageTextView.setText(document.getString("age"));
-                        emailTextView.setText(document.getString("email"));
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user != null) {
+                        nameTextView.setText(user.getName());
+                        genderTextView.setText(user.getGender());
+                        ageTextView.setText(user.getAge());
+                        emailTextView.setText(user.getEmail());
                     } else {
-                        Toast.makeText(this, "No profile data found.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewProfileActivity.this, "Could not parse user data.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(this, "Failed to fetch data: " + task.getException(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewProfileActivity.this, "No profile data found.", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            startActivity(new Intent(ViewProfileActivity.this, MainActivity.class));
-            finish();
-        }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ViewProfileActivity.this, "Failed to fetch data: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -41,7 +41,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.cardview)
     implementation(libs.firebase.auth)
-    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-database")
     testImplementation(libs.junit)
     implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
     implementation("com.google.firebase:firebase-analytics")
