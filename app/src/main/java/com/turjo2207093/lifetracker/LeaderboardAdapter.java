@@ -9,12 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
 
-    private ArrayList<User> users;
+    private List<User> users;
 
-    public LeaderboardAdapter(ArrayList<User> users) {
+    public LeaderboardAdapter(List<User> users) {
         this.users = users;
     }
 
@@ -28,13 +29,18 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
-        holder.usernameTextView.setText(user.getUsername());
+        holder.usernameTextView.setText(user.getName());
         holder.levelTextView.setText("Level: " + user.getLevel());
     }
 
     @Override
     public int getItemCount() {
         return users.size();
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

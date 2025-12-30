@@ -6,51 +6,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B1EDE8"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="331dp"
-        android:layout_height="109dp"
-        android:fontFamily="sans-serif-condensed-light"
-        android:gravity="center"
-        android:text="LifeTracker"
-        android:textColor="#0976DC"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
+    tools:context=".UserAuthActivity">
 
     <Button
-        android:id="@+id/adminButton"
+        android:id="@+id/loginPageButton"
         android:layout_width="190dp"
         android:layout_height="81dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#FF6978"
         android:fontFamily="sans-serif-condensed"
-        android:text="Admin"
+        android:text="Login"
         android:textColor="#FFFCF9"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/userButton"
+        app:layout_constraintBottom_toTopOf="@+id/signInPageButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/userButton"
+        android:id="@+id/signInPageButton"
         android:layout_width="190dp"
         android:layout_height="81dp"
         android:layout_marginBottom="84dp"
         android:backgroundTint="#4CAF50"
         android:fontFamily="sans-serif-condensed"
-        android:text="User"
+        android:text="Sign In"
         android:textColor="#FFFCF9"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

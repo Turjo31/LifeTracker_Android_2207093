@@ -1,16 +1,20 @@
 package com.turjo2207093.lifetracker;
 
 public class User {
-    private String username;
+    private String name; // Changed from username
     private int level;
 
-    public User(String username, int level) {
-        this.username = username;
+    // Add a no-argument constructor
+    public User() {
+    }
+
+    public User(String name, int level) {
+        this.name = name;
         this.level = level;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() { // Changed from getUsername
+        return name;
     }
 
     public int getLevel() {

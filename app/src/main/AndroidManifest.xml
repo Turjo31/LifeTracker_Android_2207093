@@ -12,13 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LifeTracker">
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserAuthActivity"
+            android:exported="false" />
+        <activity
             android:name=".LeaderboardActivity"
             android:exported="false" />
         <activity
             android:name=".ViewProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Profile"
             android:exported="false" />
         <activity
             android:name=".AddHabitActivity"

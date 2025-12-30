@@ -5,19 +5,18 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class UserAuthActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user_auth);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -25,21 +24,22 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        Button adminButton = findViewById(R.id.adminButton);
-        Button userButton = findViewById(R.id.userButton);
+        Button loginPageButton = findViewById(R.id.loginPageButton);
+        Button signInPageButton = findViewById(R.id.signInPageButton);
 
-        adminButton.setOnClickListener(new View.OnClickListener() {
+        loginPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Admin login coming soon!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(UserAuthActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
 
-        userButton.setOnClickListener(new View.OnClickListener() {
+        signInPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, UserAuthActivity.class);
-                startActivity(intent);
+                 Intent intent = new Intent(UserAuthActivity.this, SignInActivity.class);
+                 startActivity(intent);
             }
         });
     }
