@@ -2,6 +2,8 @@ package com.turjo2207093.lifetracker;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.Map;
+
 @IgnoreExtraProperties
 public class User {
     public String name;
@@ -10,9 +12,9 @@ public class User {
     public String email;
     public int level;
     public int exp;
+    public Map<String, String> habits;
 
     public User() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
     public String getName() {
@@ -37,5 +39,9 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public Map<String, String> getHabits() {
+        return habits;
     }
 }

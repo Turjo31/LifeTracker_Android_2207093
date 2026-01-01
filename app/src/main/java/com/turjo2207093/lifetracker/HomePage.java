@@ -33,7 +33,8 @@ import java.util.Map;
 
 public class HomePage extends AppCompatActivity {
 
-    private ArrayList<String> habits;
+    private ArrayList<String> habitNames;
+    private ArrayList<String> habitKeys;
     private HabitAdapter habitsAdapter;
     private RecyclerView habitsRecyclerView;
     private ActivityResultLauncher<Intent> addHabitLauncher;
@@ -45,7 +46,7 @@ public class HomePage extends AppCompatActivity {
     private TextView welcomeText;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    private DatabaseReference userDatabaseRef;
     private String userId;
 
     @Override
@@ -67,7 +68,7 @@ public class HomePage extends AppCompatActivity {
             return;
         }
         userId = currentUser.getUid();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+        userDatabaseRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
         welcomeText = findViewById(R.id.welcomeText);
         levelTextView = findViewById(R.id.levelTextView);
@@ -78,10 +79,9 @@ public class HomePage extends AppCompatActivity {
         ImageButton goToProfile = findViewById(R.id.goToProfile);
 
         habitsRecyclerView = findViewById(R.id.habitsRecyclerView);
-        habits = new ArrayList<>();
-        habits.add("Sample");
-
-        habitsAdapter = new HabitAdapter(habits, position -> {
+        habitNames = new ArrayList<>();
+        habitKeys = new ArrayList<>();
+        habitsAdapter = new HabitAdapter(habitNames, position -> {
             new AlertDialog.Builder(HomePage.this)
                     .setTitle("Mark as complete?")
                     .setPositiveButton("Yes", (dialog, which) -> completeHabit(position))
@@ -91,10 +91,7 @@ public class HomePage extends AppCompatActivity {
             new AlertDialog.Builder(HomePage.this)
                     .setTitle("Delete Habit")
                     .setMessage("Would you like to delete this habit?")
-                    .setPositiveButton("Yes", (dialog, which) -> {
-                        habits.remove(position);
-                        habitsAdapter.notifyItemRemoved(position);
-                    })
+                    .setPositiveButton("Yes", (dialog, which) -> deleteHabit(position))
                     .setNegativeButton("No", null)
                     .show();
         });
@@ -108,8 +105,7 @@ public class HomePage extends AppCompatActivity {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         String newHabit = result.getData().getStringExtra("newHabit");
                         if (newHabit != null) {
-                            habits.add(newHabit);
-                            habitsAdapter.notifyItemInserted(habits.size() - 1);
+                            addNewHabit(newHabit);
                         }
                     }
                 });
@@ -132,7 +128,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void fetchUserData() {
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        userDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -144,6 +140,16 @@ public class HomePage extends AppCompatActivity {
 
                         welcomeText.setText("Welcome Back!");
                         updateLevelText();
+
+                        habitNames.clear();
+                        habitKeys.clear();
+                        if (user.getHabits() != null) {
+                            for (Map.Entry<String, String> entry : user.getHabits().entrySet()) {
+                                habitKeys.add(entry.getKey());
+                                habitNames.add(entry.getValue());
+                            }
+                        }
+                        habitsAdapter.notifyDataSetChanged();
                     }
                 } else {
                     Toast.makeText(HomePage.this, "User data not found.", Toast.LENGTH_SHORT).show();
@@ -157,6 +163,15 @@ public class HomePage extends AppCompatActivity {
         });
     }
 
+    private void addNewHabit(String habitName) {
+        userDatabaseRef.child("habits").push().setValue(habitName);
+    }
+
+    private void deleteHabit(int position) {
+        String habitKey = habitKeys.get(position);
+        userDatabaseRef.child("habits").child(habitKey).removeValue();
+    }
+
     private void completeHabit(int position) {
         exp += 10;
         if (exp >= expToNextLevel) {
@@ -168,11 +183,9 @@ public class HomePage extends AppCompatActivity {
         Map<String, Object> updates = new HashMap<>();
         updates.put("level", level);
         updates.put("exp", exp);
-        mDatabase.updateChildren(updates);
+        userDatabaseRef.updateChildren(updates);
 
-        updateLevelText();
-        habits.remove(position);
-        habitsAdapter.notifyItemRemoved(position);
+        deleteHabit(position);
     }
 
     private void updateLevelText() {
