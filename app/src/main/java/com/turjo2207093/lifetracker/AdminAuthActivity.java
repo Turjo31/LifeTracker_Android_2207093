@@ -11,12 +11,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class AdminAuthActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_admin_auth);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -24,21 +24,21 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        Button adminButton = findViewById(R.id.adminButton);
-        Button userButton = findViewById(R.id.userButton);
+        Button adminLoginPageButton = findViewById(R.id.adminLoginPageButton);
+        Button adminSignInPageButton = findViewById(R.id.adminSignInPageButton);
 
-        adminButton.setOnClickListener(new View.OnClickListener() {
+        adminLoginPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AdminAuthActivity.class);
+                Intent intent = new Intent(AdminAuthActivity.this, AdminLoginActivity.class);
                 startActivity(intent);
             }
         });
 
-        userButton.setOnClickListener(new View.OnClickListener() {
+        adminSignInPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, UserAuthActivity.class);
+                Intent intent = new Intent(AdminAuthActivity.this, AdminSignInActivity.class);
                 startActivity(intent);
             }
         });
