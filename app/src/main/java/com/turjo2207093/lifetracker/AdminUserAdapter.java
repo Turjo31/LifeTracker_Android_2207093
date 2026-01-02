@@ -3,6 +3,7 @@ package com.turjo2207093.lifetracker;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,9 +14,15 @@ import java.util.List;
 public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.ViewHolder> {
 
     private List<User> userList;
+    private OnResetClickListener resetClickListener;
 
-    public AdminUserAdapter(List<User> userList) {
+    public interface OnResetClickListener {
+        void onResetClick(User user);
+    }
+
+    public AdminUserAdapter(List<User> userList, OnResetClickListener resetClickListener) {
         this.userList = userList;
+        this.resetClickListener = resetClickListener;
     }
 
     @NonNull
@@ -32,6 +39,12 @@ public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.View
             holder.userNameTextView.setText(user.getName());
             String userDetails = "Level: " + user.getLevel() + " | EXP: " + user.getExp();
             holder.userDetailTextView.setText(userDetails);
+
+            holder.resetProgressButton.setOnClickListener(v -> {
+                if (resetClickListener != null) {
+                    resetClickListener.onResetClick(user);
+                }
+            });
         }
     }
 
@@ -43,11 +56,13 @@ public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView userNameTextView;
         public TextView userDetailTextView;
+        public Button resetProgressButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             userNameTextView = itemView.findViewById(R.id.userNameTextView);
             userDetailTextView = itemView.findViewById(R.id.userDetailTextView);
+            resetProgressButton = itemView.findViewById(R.id.resetProgressButton);
         }
     }
 }

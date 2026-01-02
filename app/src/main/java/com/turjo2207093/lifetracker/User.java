@@ -1,11 +1,15 @@
 package com.turjo2207093.lifetracker;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.Map;
 
 @IgnoreExtraProperties
 public class User {
+    @Exclude
+    public String uid;
+
     public String name;
     public String gender;
     public String age;
@@ -43,5 +47,14 @@ public class User {
 
     public Map<String, String> getHabits() {
         return habits;
+    }
+
+    @Exclude
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
