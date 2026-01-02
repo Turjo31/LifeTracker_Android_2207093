@@ -123,4 +123,25 @@
         android:textColor="#333333"
         android:textSize="22sp" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/diaryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#517664"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingStart="48dp"
+        android:paddingEnd="48dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:text="Your Diary"
+        android:textColor="#D6E5E3"
+        android:textSize="18sp" />
+
 </LinearLayout>

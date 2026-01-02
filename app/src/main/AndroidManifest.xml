@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LifeTracker">
         <activity
+            android:name=".DiaryActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminSignInActivity"
             android:exported="false" />
         <activity

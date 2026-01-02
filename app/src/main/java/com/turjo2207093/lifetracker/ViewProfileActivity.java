@@ -3,6 +3,8 @@ package com.turjo2207093.lifetracker;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ViewProfileActivity extends AppCompatActivity {
 
     private TextView nameTextView, genderTextView, ageTextView, emailTextView;
+    private Button diaryButton;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -51,6 +54,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         genderTextView = findViewById(R.id.genderTextView);
         ageTextView = findViewById(R.id.ageTextView);
         emailTextView = findViewById(R.id.emailTextView);
+        diaryButton = findViewById(R.id.diaryButton);
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -73,6 +77,14 @@ public class ViewProfileActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(ViewProfileActivity.this, "Failed to fetch data: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        diaryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewProfileActivity.this, DiaryActivity.class);
+                startActivity(intent);
             }
         });
     }
